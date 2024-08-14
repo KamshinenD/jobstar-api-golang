@@ -16,7 +16,7 @@ func RespondJSON(c *gin.Context, status int, message string, data interface{}) {
 
 // RespondError sends a JSON response for errors.
 func RespondError(c *gin.Context, status int, message string, err error) {
-	
+
 	var errorMessage string
 
 	if err != nil {

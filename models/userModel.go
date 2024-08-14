@@ -22,7 +22,7 @@ type User struct {
 }
 
 type UserLogin struct {
-	ID       string `json:"id"`
+	ID       string `json:"id"` //id is skipped so that swagger does notpick it
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }

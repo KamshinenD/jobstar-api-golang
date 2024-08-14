@@ -28,6 +28,16 @@ func generateVerificationToken() (string, error) {
 	return token, nil
 }
 
+// @Summary Register a new user
+// @Description Registers a new user
+// @Tags Auth
+// @Accept  json
+// @Produce  json
+// @Param user body models.UserRegisterRequest true "User Data"
+// @Success 201 {object} models.SuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
+// @Router /auth/register [POST]
 func RegistrationController(c *gin.Context) {
 	var user models.User
 	err := c.ShouldBindJSON(&user)
@@ -93,6 +103,16 @@ func RegistrationController(c *gin.Context) {
 	utils.RespondJSON(c, http.StatusOK, "Registration Successful", nil)
 }
 
+// @Summary Login a user
+// @Description Authenticates a user and returns a JWT token
+// @Tags Auth
+// @Accept  json
+// @Produce  json
+// @Param credentials body models.UserLoginRequest true "User Login Data"
+// @Success 200 {object} models.AuthResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 401 {object} models.ErrorResponse
+// @Router /auth/login [POST]
 func LoginController(c *gin.Context) {
 	var user models.UserLogin
 	err := c.ShouldBindJSON(&user)
@@ -130,6 +150,18 @@ func LoginController(c *gin.Context) {
 	})
 }
 
+// UpdateUser updates a user's details
+// @Summary Update user details
+// @Description Updates the authenticated user's details
+// @Tags Auth
+// @Security ApiKeyAuth
+// @Accept  json
+// @Produce  json
+// @Param user body models.UserUpdateRequest true "User Update Data"
+// @Success 200 {object} models.SuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 401 {object} models.ErrorResponse
+// @Router /auth/updateUser [PATCH]
 func UpdateUser(c *gin.Context) {
 	userId, exists := c.Get("userId")
 
@@ -178,6 +210,18 @@ func UpdateUser(c *gin.Context) {
 	utils.RespondJSON(c, http.StatusOK, "User details updated successfully", nil)
 }
 
+// VerifyAccountController verifies a user's email account
+// @Summary Verify user's email account
+// @Description Verifies a user's email account using the link sent to your email
+// @Tags Auth
+// @Accept  json
+// @Produce  json
+// @Param e query string true "User Email"
+// @Param t query string true "Verification Token"
+// @Success 200 {object} models.SuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Router /auth/verifyAccount [GET]
 func VerifyAccountController(c *gin.Context) {
 	email := c.Query("e")
 	token := c.Query("t")

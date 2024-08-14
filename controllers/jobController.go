@@ -9,6 +9,18 @@ import (
 	"jobstar.com/api/utils"
 )
 
+// @Summary User creates a Job
+// @Description User creates a Job
+// @Tags job
+// @Accept  json
+// @Security ApiKeyAuth
+// @Produce  json
+// @Param user body models.JobRequest true "Create Job Data"
+// @Success 201 {object} models.SuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
+// @Router /jobs [POST]
+
 func CreateJob(c *gin.Context) {
 
 	userId, exists := c.Get("userId")
@@ -78,6 +90,15 @@ func CreateJob(c *gin.Context) {
 
 }
 
+// @Summary Get all jobs for user
+// @Description Gets all Jobs created by user
+// @Tags Job
+// @Security ApiKeyAuth
+// @Produce  json
+// @Success 200 {object} models.SuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Router /jobs [GET]
 func GetJobsByUser(c *gin.Context) {
 	userId, exists := c.Get("userId")
 
@@ -111,6 +132,16 @@ func GetJobsByUser(c *gin.Context) {
 
 }
 
+// @Summary Get job by ID
+// @Description Retrieves a job using its ID
+// @Tags Job
+// @Security ApiKeyAuth
+// @Produce  json
+// @Param   id   path    string  true  "Job ID"
+// @Success 200 {object} models.SuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Router /jobs/{id} [GET]
 func GetSingleJob(c *gin.Context) {
 	jobId := c.Param("id")
 
@@ -138,6 +169,16 @@ func GetSingleJob(c *gin.Context) {
 	})
 }
 
+// @Summary Get job by ID
+// @Description Deletes a job using its ID
+// @Tags Job
+// @Security ApiKeyAuth
+// @Produce  json
+// @Param   id   path    string  true  "Job ID"
+// @Success 200 {object} models.SuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Router /jobs/{id} [DELETE]
 func DeleteJob(c *gin.Context) {
 	jobId := c.Param("id")
 	userId, exists := c.Get("userId")
@@ -174,6 +215,18 @@ func DeleteJob(c *gin.Context) {
 	utils.RespondJSON(c, http.StatusOK, "Job Deleted successfully", nil)
 }
 
+// @Summary Update Job details
+// @Description Updates the authenticated user's details
+// @Tags Job
+// @Security ApiKeyAuth
+// @Accept  json
+// @Produce  json
+// @Param   id   path    string  true  "Job ID"
+// @Param user body models.JobRequest true "User UpdateJob Data"
+// @Success 200 {object} models.SuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 401 {object} models.ErrorResponse
+// @Router /jobs/{id} [PATCH]
 func UpdateJob(c *gin.Context) {
 
 	var updatedJob models.Job
@@ -250,6 +303,15 @@ func UpdateJob(c *gin.Context) {
 	utils.RespondJSON(c, http.StatusOK, "Job Updated successfully", nil)
 }
 
+// @Summary Shows stats all jobs for user
+// @Description Shows stats all jobs for user
+// @Tags Job
+// @Security ApiKeyAuth
+// @Produce  json
+// @Success 200 {object} models.SuccessResponse
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Router /jobs/stats [GET]
 func ShowStats(c *gin.Context) {
 	userId, exists := c.Get("userId")
 	if !exists {
