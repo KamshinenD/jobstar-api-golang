@@ -52,7 +52,9 @@ func createTables() {
 		email TEXT NOT NULL UNIQUE,
 		password TEXT NOT NULL,
 		location TEXT NOT NULL,
-		isAdmin BOOLEAN NOT NULL DEFAULT FALSE
+		isAdmin BOOLEAN NOT NULL DEFAULT FALSE,
+		verificationToken TEXT DEFAULT '',
+		isVerified BOOLEAN NOT NULL DEFAULT FALSE
 	)
 	`
 	_, err := DB.Exec(createUsersTable)

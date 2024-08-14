@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Subject }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333333;
+            margin: 0;
+            padding: 20px;
+        }
+        .email-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        p {
+            line-height: 1.6;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777777;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <h1>Hello {{ .Name }},</h1>
+        <p>{{ .Body }}</p>
+        <p>Best regards,</p>
+        <p>The JobStar Team</p>
+    </div>
+    <div class="footer">
+        <p>If you did not sign up for this account, please ignore this email.</p>
+    </div>
+</body>
+</html>

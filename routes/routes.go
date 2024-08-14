@@ -15,6 +15,7 @@ import (
 func RegisterAuthRoutes(router *gin.RouterGroup) {
 	router.POST("/register", controllers.RegistrationController)
 	router.POST("/login", controllers.LoginController)
+	router.GET("/verifyAccount", controllers.VerifyAccountController)
 	router.PATCH("/updateUser", middlewares.Authenticate, controllers.UpdateUser)
 }
 
