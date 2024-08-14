@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"log"
 	"os"
-	 _ "github.com/lib/pq"
-	 "github.com/joho/godotenv"
+
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 var DB *sql.DB
-
 
 func InitDB() {
 
@@ -44,19 +44,40 @@ func createTables() {
 	// Enable the pgcrypto extension
 	DB.Exec(`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`)
 
-	createUsersTable:=`
+	createUsersTable := `
 	CREATE TABLE IF NOT EXISTS users(
 		id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 		firstName TEXT NOT NULL,
 		lastName TEXT NOT NULL,
 		email TEXT NOT NULL UNIQUE,
 		password TEXT NOT NULL,
-		location TEXT NOT NULL
+		location TEXT NOT NULL,
+		isAdmin BOOLEAN NOT NULL DEFAULT FALSE
 	)
 	`
-	_, err:= DB.Exec(createUsersTable)
+	_, err := DB.Exec(createUsersTable)
 	if err != nil {
 		// panic("Could not create users table")
 		log.Fatal("Could not create users table:", err)
 	}
+
+	createJobsTable := `
+	CREATE TABLE IF NOT EXISTS jobs(
+		id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+		company TEXT NOT NULL,
+		position TEXT NOT NULL,
+		jobLocation TEXT NOT NULL,
+		status TEXT NOT NULL,
+		jobType TEXT NOT NULL,
+		createdAt TIMESTAMPTZ NOT NULL,
+		createdBy TEXT NOT NULL
+	)
+	`
+
+	_, err = DB.Exec(createJobsTable)
+	if err != nil {
+		// panic("Could not create users table")
+		log.Fatal("Could not create Jobs table:", err)
+	}
+
 }
