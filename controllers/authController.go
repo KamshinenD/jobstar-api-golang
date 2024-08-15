@@ -5,8 +5,10 @@ import (
 	"encoding/hex"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"jobstar.com/api/email"
 	"jobstar.com/api/models"
 	"jobstar.com/api/utils"
@@ -82,8 +84,11 @@ func RegistrationController(c *gin.Context) {
 		return
 	}
 
+	godotenv.Load()
+	baseURL := os.Getenv("APIHostURL")
+
 	// Create the verification link
-	verifyLink := fmt.Sprintf("http://localhost:8080/api/v1/auth/verifyAccount?e=%s&t=%s", user.Email, token)
+	verifyLink := fmt.Sprintf("%s/api/v1/auth/verifyAccount?e=%s&t=%s", baseURL, user.Email, token)
 
 	subject := "Welcome to JobStar!"
 	name := user.FirstName
