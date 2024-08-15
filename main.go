@@ -8,7 +8,10 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files" // This import provides the swaggerFiles variable
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"jobstar.com/api/db"
@@ -18,6 +21,13 @@ import (
 
 func main() {
 	db.InitDB()
+	godotenv.Load()
+
+	APIHostURL := os.Getenv("APIHostURL")
+
+	if APIHostURL == "" {
+		APIHostURL = "localhost:8080" // Default value if not set
+	}
 
 	server := gin.Default()
 
@@ -35,5 +45,6 @@ func main() {
 		routes.RegisterJobRoutes(jobRoutes)
 	}
 
-	server.Run(":8080")
+	// server.Run(":8080")
+	server.Run(APIHostURL)
 }
