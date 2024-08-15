@@ -21,20 +21,14 @@ import (
 )
 
 func init() {
-    err := godotenv.Load()
-    if err != nil {
-        log.Fatalf("Error loading .env file")
-    }
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 }
 
 func main() {
 	db.InitDB()
-
-	APIHostURL := os.Getenv("APIHostURL")
-
-	if APIHostURL == "" {
-		APIHostURL = "localhost:8080" // Default value if not set
-	}
 
 	server := gin.Default()
 
@@ -52,6 +46,10 @@ func main() {
 		routes.RegisterJobRoutes(jobRoutes)
 	}
 
-	// server.Run(":8080")
-	server.Run(APIHostURL)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default value if not set
+	}
+
+	server.Run(":" + port)
 }
