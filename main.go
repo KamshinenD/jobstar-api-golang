@@ -8,6 +8,7 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -19,9 +20,15 @@ import (
 	"jobstar.com/api/routes"
 )
 
+func init() {
+    err := godotenv.Load()
+    if err != nil {
+        log.Fatalf("Error loading .env file")
+    }
+}
+
 func main() {
 	db.InitDB()
-	godotenv.Load()
 
 	APIHostURL := os.Getenv("APIHostURL")
 

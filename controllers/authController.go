@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 
@@ -30,6 +31,13 @@ func generateVerificationToken() (string, error) {
 	return token, nil
 }
 
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+}
+
 // @Summary Register a new user
 // @Description Registers a new user
 // @Tags Auth
@@ -41,6 +49,7 @@ func generateVerificationToken() (string, error) {
 // @Failure 500 {object} models.ErrorResponse
 // @Router /auth/register [POST]
 func RegistrationController(c *gin.Context) {
+	
 	var user models.User
 	err := c.ShouldBindJSON(&user)
 
@@ -84,7 +93,6 @@ func RegistrationController(c *gin.Context) {
 		return
 	}
 
-	godotenv.Load()
 	baseURL := os.Getenv("APIHostURL")
 
 	// Create the verification link
